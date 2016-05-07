@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <math.h>
+#include <ctime>
 
 #include "odometer.h"
 #include "serialport.h"
@@ -22,21 +23,17 @@ int main()
         printf("error opening the device\n");
     }
 
-
     /*CHANGES*/
     if(set_interface_attribs(fd, B9600, 0)!=0)
     {            printf("hello");
         printf("error set interface\n");
     }
-
     else
-
 
     if(set_blocking(fd, 0)!=0)
     {
         printf("error set blocking\n");
     }
-
     else
         printf("done");
 
@@ -71,11 +68,12 @@ int main()
     int delta;
     class odometer test1;
     unsigned char var[4];//for saving 4bytes raw data
-
+    write (fd,A5A5 , 2);
+    usleep (3000);
+    std::clock_t start;//用于后面循环的定时，使得刷新周期稳定保持在10ms
+    double duration;
     while(1){
-        write (fd,A5A5 , 2);
-
-        usleep (3000);
+        start = std::clock();//起始时间
         if( 6> read (fd, receivebuffer, sizeof receivebuffer) ){ // then read failed
             return -1;
             break;
@@ -91,8 +89,7 @@ int main()
         for(int i=0;i<4;i++){
             var[i]=receivebuffer[i+1];
         }
-
-
+        write (fd,A5A5 , 2);
         old_data=new_data;
         if(receivebuffer[5]!=receivebuffer[0]+receivebuffer[1]+receivebuffer[2]+receivebuffer[3]receivebuffer[4]){
             continue;
@@ -101,7 +98,10 @@ int main()
 
         delta=new_data-old_data;
         test1.odo_add_mm(delta/revolution);
+        test1.speed=delta/revolution/0.01;//10ms=0.01s
         test1.odo_print();
+        duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;//一次循环计算所花费的时间
+        usleep(10000-duration*10^6);//等待满10ms
     }
     // cleanup
 

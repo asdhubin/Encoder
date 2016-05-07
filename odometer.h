@@ -15,12 +15,13 @@ private:
     int negative_kilometer=0;
     int negative_meter=0;
     float negative_milimeter=0;
-    float speed;
+
     std::string portname;
     float convolution;
     int baud;
 
 public:
+    float speed;//速度放在这边方便主程序中实时写入/读取速度
     odometer();
     odometer(int baud_,float convolution_,std::string &port);
     ~odometer();

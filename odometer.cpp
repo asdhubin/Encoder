@@ -93,6 +93,7 @@ void odometer::odo_print(){
     <<positive_milimeter<<"mm"<<std::endl;
     std::cout<<"move back    "<<negative_kilometer<<"km "<<negative_meter<<"m "
     <<negative_milimeter<<"mm"<<std::endl;
+    std::cout<<"speed is "<<speed<<"mm/s"<<std::endl;
 }
 /**
 *void odo_print_positive()
