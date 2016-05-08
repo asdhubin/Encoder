@@ -11,7 +11,7 @@
 #include "odometer.h"
 #include "serialport.h"
 
-#define portname  "/dev/ttyUSB0"
+#define portname  "/dev/ttyUSB0"//ä¸ç¡®å®šè¿™é‡Œä¼šä¸ä¼šå’Œodometer.hçš„portnameå†²çªï¼Œæ‡’å¾—æ”¹
 #define revolution 1000 //every 1000 of encoder number is 1mm
 
 int main()
@@ -70,10 +70,10 @@ int main()
     unsigned char var[4];//for saving 4bytes raw data
     write (fd,A5A5 , 2);
     usleep (3000);
-    std::clock_t start;//ÓÃÓÚºóÃæÑ­»·µÄ¶¨Ê±£¬Ê¹µÃË¢ÐÂÖÜÆÚÎÈ¶¨±£³ÖÔÚ10ms
+    std::clock_t start;//ç”¨äºŽåŽé¢å¾ªçŽ¯çš„å®šæ—¶ï¼Œä½¿å¾—åˆ·æ–°å‘¨æœŸç¨³å®šä¿æŒåœ¨10ms
     double duration;
     while(1){
-        start = std::clock();//ÆðÊ¼Ê±¼ä
+        start = std::clock();//èµ·å§‹æ—¶é—´
         if( 6> read (fd, receivebuffer, sizeof receivebuffer) ){ // then read failed
             return -1;
             break;
@@ -100,8 +100,8 @@ int main()
         test1.odo_add_mm(delta/revolution);
         test1.speed=delta/revolution/0.01;//10ms=0.01s
         test1.odo_print();
-        duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;//Ò»´ÎÑ­»·¼ÆËãËù»¨·ÑµÄÊ±¼ä
-        usleep(10000-duration*10^6);//µÈ´ýÂú10ms
+        duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;//ä¸€æ¬¡å¾ªçŽ¯è®¡ç®—æ‰€èŠ±è´¹çš„æ—¶é—´
+        usleep(10000-duration*10^6);//ç­‰å¾…æ»¡10ms
     }
     // cleanup
 
